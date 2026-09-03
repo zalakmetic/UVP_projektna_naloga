@@ -2,7 +2,10 @@ import requests
 import bs4
 import csv
 
-link = "https://www.statbunker.com/competitions/GoalsFor?comp_id=790"
+link1 = "https://www.statbunker.com/competitions/GoalsFor?comp_id=790"
+link2 = "https://www.statbunker.com/competitions/GoalsAgainst?comp_id=790"
+link3 = "https://www.statbunker.com/competitions/Top10KeepersCleanSheets?comp_id=790"
+link4 = "https://www.statbunker.com/competitions/TeamsGoalScorersTypeOfPlay?comp_id=790"
 
 def prenesi_in_shrani_html(url, ime_datoteke):
     response = requests.get(url)
@@ -14,13 +17,16 @@ def prenesi_in_shrani_html(url, ime_datoteke):
     else:
         print("Prišlo je do napake.")
 
-prenesi_in_shrani_html(link, "podatki/goals_for.html")
+prenesi_in_shrani_html(link1, "podatki/goals_for.html")
+prenesi_in_shrani_html(link2, "podatki/goals_against.html")
+prenesi_in_shrani_html(link3, "podatki/clean_sheets.html")
+prenesi_in_shrani_html(link4, "podatki/goal_types.html")
 
 def preberi_html(ime_datoteke):
     with open(ime_datoteke, "r", encoding="utf-8") as f:
         return f.read()
 
-html = preberi_html("podatki/goals_for.html")
+html1 = preberi_html("podatki/goals_for.html")
 
 def imena_stolpcev_iz_tabele(tabela):
     glava = tabela.find("thead")
@@ -60,7 +66,7 @@ def podatki_iz_html(html):
 
     return imena_stolpcev, podatki
 
-imena_stolpcev, podatki = podatki_iz_html(html)
+imena_stolpcev1, podatki1 = podatki_iz_html(html1)
 
 def zapisi_csv(imena_stolpcev, podatki, ime_datoteke):
     with open(ime_datoteke, "w", encoding="utf-8") as f:
@@ -71,4 +77,4 @@ def zapisi_csv(imena_stolpcev, podatki, ime_datoteke):
         for vrstica in podatki:
             writer.writerow(vrstica)
 
-zapisi_csv(imena_stolpcev, podatki, "podatki/goals_for.csv")
+zapisi_csv(imena_stolpcev1, podatki1, "podatki/goals_for.csv")
