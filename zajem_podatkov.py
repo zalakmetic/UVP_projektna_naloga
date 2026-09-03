@@ -37,21 +37,33 @@ def imena_stolpcev_iz_tabele(tabela):
 
     return imena_stolpcev
 
-def podatki_iz_tabele(tabela):
+def podatki_iz_tabele(tabela, imena_stolpcev):
     vsebina_tabele = tabela.find("tbody")
     vrstice = vsebina_tabele.find_all("tr")
 
     podatki = []
 
-    for vrstica in vrstice:
-        celice = vrstica.find_all("td")
+    if len(vrstice) > 0:
+        for vrstica in vrstice:
+            celice = vrstica.find_all("td")
 
-        vrednosti_vrstice = []
+            vrednosti_vrstice = []
 
-        for celica in celice[:-1]:
-            vrednosti_vrstice.append(celica.text.strip())
+            for celica in celice[:-1]:
+                vrednosti_vrstice.append(celica.text.strip())
 
-        podatki.append(vrednosti_vrstice)
+            podatki.append(vrednosti_vrstice)
+    else:
+        celice = vsebina_tabele.find_all("td")
+        st_celic = len(imena_stolpcev) + 1
+
+        for i in range(0, len(celice), st_celic):
+            vrednosti_vrstice = []
+
+            for celica in celice[i:i + len(imena_stolpcev)]:
+                vrednosti_vrstice.append(celica.text.strip())
+
+            podatki.append(vrednosti_vrstice)
 
     return podatki
 
@@ -60,7 +72,7 @@ def podatki_iz_html(html):
     tabela = juha.find("table") 
 
     imena_stolpcev = imena_stolpcev_iz_tabele(tabela)
-    podatki = podatki_iz_tabele(tabela)
+    podatki = podatki_iz_tabele(tabela, imena_stolpcev)
 
     return imena_stolpcev, podatki
 
@@ -82,3 +94,4 @@ def html_v_csv(html_datoteka, csv_datoteka):
 html_v_csv("podatki/goals_for.html", "podatki/goals_for.csv")
 html_v_csv("podatki/goals_against.html", "podatki/goals_against.csv")
 html_v_csv("podatki/clean_sheets.html", "podatki/clean_sheets.csv")
+html_v_csv("podatki/goal_types.html", "podatki/goal_types.csv")
