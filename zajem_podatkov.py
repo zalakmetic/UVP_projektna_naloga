@@ -26,8 +26,6 @@ def preberi_html(ime_datoteke):
     with open(ime_datoteke, "r", encoding="utf-8") as f:
         return f.read()
 
-html1 = preberi_html("podatki/goals_for.html")
-
 def imena_stolpcev_iz_tabele(tabela):
     glava = tabela.find("thead")
     naslovi = glava.find_all("th")
@@ -66,8 +64,6 @@ def podatki_iz_html(html):
 
     return imena_stolpcev, podatki
 
-imena_stolpcev1, podatki1 = podatki_iz_html(html1)
-
 def zapisi_csv(imena_stolpcev, podatki, ime_datoteke):
     with open(ime_datoteke, "w", encoding="utf-8") as f:
         writer = csv.writer(f)
@@ -77,4 +73,10 @@ def zapisi_csv(imena_stolpcev, podatki, ime_datoteke):
         for vrstica in podatki:
             writer.writerow(vrstica)
 
-zapisi_csv(imena_stolpcev1, podatki1, "podatki/goals_for.csv")
+def html_v_csv(html_datoteka, csv_datoteka):
+    html = preberi_html(html_datoteka)
+    imena_stolpcev, podatki = podatki_iz_html(html)
+
+    zapisi_csv(imena_stolpcev, podatki, csv_datoteka) 
+
+html_v_csv("podatki/goals_for.html", "podatki/goals_for.csv")
