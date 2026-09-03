@@ -80,3 +80,5 @@ def html_v_csv(html_datoteka, csv_datoteka):
     zapisi_csv(imena_stolpcev, podatki, csv_datoteka) 
 
 html_v_csv("podatki/goals_for.html", "podatki/goals_for.csv")
+html_v_csv("podatki/goals_against.html", "podatki/goals_against.csv")
+html_v_csv("podatki/clean_sheets.html", "podatki/clean_sheets.csv")
