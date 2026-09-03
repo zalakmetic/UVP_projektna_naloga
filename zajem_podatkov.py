@@ -21,3 +21,40 @@ def preberi_html(ime_datoteke):
 
 html = preberi_html("podatki/goals_for.html")
 
+def imena_stolpcev_iz_tabele(html):
+    juha = bs4.BeautifulSoup(html, "html.parser")
+    tabela = juha.find("table")
+
+    glava = tabela.find("thead")
+    naslovi = glava.find_all("th")
+
+    imena_stolpcev = []
+
+    for naslov in naslovi[:-1]:
+        imena_stolpcev.append(naslov.text.strip())
+
+    return imena_stolpcev
+
+def podatki_iz_tabele(html):
+    juha = bs4.BeautifulSoup(html, "html.parser")
+    tabela = juha.find("table") 
+
+    vsebina_tabele = tabela.find("tbody")
+    vrstice = vsebina_tabele.find_all("tr")
+
+    podatki = []
+
+    for vrstica in vrstice:
+        celice = vrstica.find_all("td")
+
+        vrednosti_vrstice = []
+
+        for celica in celice[:-1]:
+            vrednosti_vrstice.append(celica.text.strip())
+
+        podatki.append(vrednosti_vrstice)
+
+    return podatki
+
+imena_stolpcev = imena_stolpcev_iz_tabele(html)
+podatki = podatki_iz_tabele(html)
