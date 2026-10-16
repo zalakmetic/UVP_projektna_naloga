@@ -15,7 +15,7 @@ def prenesi_in_shrani_html(url, ime_datoteke):
         with open(ime_datoteke, "w", encoding="utf-8") as f:
             f.write(response.text)
     else:
-        print("Prišlo je do napake.")
+        print(f"Prišlo je do napake. Status code: {response.status_code}")
 
 prenesi_in_shrani_html(link1, "podatki/goals_for.html")
 prenesi_in_shrani_html(link2, "podatki/goals_against.html")
